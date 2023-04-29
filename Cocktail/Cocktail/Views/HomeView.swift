@@ -15,8 +15,6 @@ struct HomeView: View {
     @State private var mixViewIsPresented = false
     @State private var favoriteViewIsPresented = false
     @StateObject var cocktailVM = ViewModel()
-    @StateObject var mixVM = MixViewModel()
-    @StateObject var favoritesVM = FavoritesViewModel()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -168,19 +166,16 @@ struct HomeView: View {
             .fullScreenCover(isPresented: $listViewIsPresented) {
                 NavigationStack {
                     ListView()
-                        .environmentObject(cocktailVM)
                 }
             }
             .fullScreenCover(isPresented: $mixViewIsPresented) {
                 NavigationStack {
                     MixView()
-                        .environmentObject(mixVM)
                 }
             }
             .fullScreenCover(isPresented: $favoriteViewIsPresented) {
                 NavigationStack {
                     FavoriteView()
-                        .environmentObject(favoritesVM)
                 }
             }
         }

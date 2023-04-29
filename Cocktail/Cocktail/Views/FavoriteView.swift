@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct FavoriteView: View {
-    @StateObject var cocktailVM = ViewModel()
-    @StateObject var favoritesVM = FavoritesViewModel()
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var favoritesVM: FavoritesViewModel
     
     var body: some View {
         NavigationView {
@@ -18,7 +16,7 @@ struct FavoriteView: View {
                 ZStack {
                     NavigationStack {
                         VStack {
-                            Image("FavoritesTitle")
+                            Image("CocktailsTitle")
                                 .resizable()
                                 .scaledToFit()
                                 .scaleEffect(0.9)
@@ -29,52 +27,26 @@ struct FavoriteView: View {
                         }
                         .background(Color("MixologyDark"))
                         
-                        if favoritesVM.favoritedCocktails.isEmpty {
-                            Spacer()
-                            overlay {
+                        List(favoritesVM.favoritedCocktails) { cocktail in
+                            NavigationLink {
+                                DetailView(cocktail: cocktail)
+                                
+                            } label: {
+                                Text(cocktail.name)
+                            }
+                            .listRowBackground(
                                 Color("MixologyDark")
-                                    .ignoresSafeArea()
-                            }
-                        } else {
-                            ZStack {
-                                overlay {
-                                    Color("MixologyDark")
-                                        .ignoresSafeArea()
-                                }
-                                List(favoritesVM.favoritedCocktails) { cocktail in
-                                    NavigationLink {
-                                        DetailView(cocktail: cocktail)
-                                            .environmentObject(cocktailVM)
-                                            .environmentObject(favoritesVM)
-                                    } label: {
-                                        Text(cocktail.name)
-                                    }
-                                    .id(UUID())
-                                        .listRowBackground(
-                                            Color("MixologyDark")
-                                        )
-                                }
-                                .id(UUID())
-                                .listStyle(PlainListStyle())
-                                .font(.custom("Avenir Next", size: 22)).bold()
-                                .foregroundColor(Color("MixologyColor"))
-                                .navigationBarTitleDisplayMode(.inline)
-                            }
+                            )
                         }
+                        .listStyle(PlainListStyle())
+                        .font(.custom("Avenir Next", size: 22)).bold()
+                        .foregroundColor(Color("MixologyColor"))
+                        .navigationBarTitleDisplayMode(.inline)
                     }
                 }
             }
+            .navigationBarTitle("Favorites", displayMode: .inline)
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading:
-                                Button(action: {
-            presentationMode.wrappedValue.dismiss()
-        }, label: {
-            Image(systemName: "chevron.backward")
-                .foregroundColor(.white)
-        }).id(UUID())
-
-        )
     }
 }
 
