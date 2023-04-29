@@ -1,4 +1,3 @@
-//
 //  MixView.swift
 //  Cocktail
 //
@@ -27,58 +26,62 @@ struct MixView: View {
                                 .foregroundColor(Color("MixologyDark"))
                                 .shadow(color: .white, radius: 2.5)
                                 .brightness(0.05)
+                            
                         }
                         .background(Color("MixologyDark"))
                         
                         if mixVM.mixedDrinks.isEmpty {
-                            Spacer()
                             overlay {
                                 Color("MixologyDark")
                                     .ignoresSafeArea()
                             }
                         } else {
-                            ZStack {
-                                overlay {
-                                    Color("MixologyDark")
-                                        .ignoresSafeArea()
-                                }
-                                List {
-                                    ForEach(mixVM.mixedDrinks) { cocktail in
-                                        NavigationLink(destination: MixDetailView(mixed: cocktail).environmentObject(mixVM)) {
-                                            Text(cocktail.name)
-                                        }
-                                        
+                            overlay {
+                                Color("MixologyDark")
+                                    .ignoresSafeArea()
+                            }
+                            List {
+                                ForEach(mixVM.mixedDrinks) { cocktail in
+                                    NavigationLink(destination: MixDetailView(mixed: cocktail).environmentObject(mixVM)
+                                    ){
+                                        Text(cocktail.name)
                                     }
-                                    .onDelete(perform: deleteCocktail)
+                                    id(UUID())
                                 }
+                                .onDelete(perform: deleteCocktail)
+                            }
+                            id(UUID())
                                 .listStyle(PlainListStyle())
                                 .font(.custom("Avenir Next", size: 22)).bold()
                                 .foregroundColor(Color("MixologyColor"))
                                 .navigationBarTitleDisplayMode(.inline)
-                            }
                         }
                     }
+                    .id(UUID())
                 }
             }
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                                    Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Image(systemName: "chevron.backward")
-                    .foregroundColor(.white)
+            .navigationBarItems(leading: HStack {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                    
+                }, label: {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(.white)
+                })
+                EditButton().id(UUID())
+            }, trailing: Button(action: {
+                showingAddMixView = true
+            }) {
+                Image(systemName: "plus")
             })
-            )
-        }
-        
-        .navigationBarItems(leading: EditButton(), trailing: Button(action: {
-            showingAddMixView = true
-        }) {
-            Image(systemName: "plus")
-        })
-        .environment(\.editMode, $editMode)
-        .sheet(isPresented: $showingAddMixView) {
-            AddMixView()
+            .id(UUID())
+            .environment(\.editMode, $editMode)
+            .sheet(isPresented: $showingAddMixView) {
+                AddMixView()
+                    .id(UUID())
+                    .environmentObject(mixVM)
+            }
+            .id(UUID())
         }
     }
     

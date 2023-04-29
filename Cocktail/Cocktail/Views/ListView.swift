@@ -36,15 +36,17 @@ struct ListView: View {
                         List(cocktailVM.cocktailArray) { cocktail in
                             NavigationLink {
                                 DetailView(cocktail: cocktail)
-                                    .environmentObject(cocktailVM)
-                                    .environmentObject(favoritesVM)
+                                    .environmentObject(ViewModel())
+                                    .environmentObject(FavoritesViewModel())
                             } label: {
                                 Text(cocktail.name)
                             }
+                            .id(UUID())
                             .listRowBackground(
                                 Color("MixologyDark")
                             )
                         }
+                        .id(UUID())
                         .listStyle(PlainListStyle())
                         .task {
                             await cocktailVM.getData()

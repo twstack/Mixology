@@ -12,7 +12,7 @@ struct DetailView: View {
     let cocktail: Cocktail
     @State private var cocktailImage = UIImage()
     @State var favorited = false
-    @EnvironmentObject var favoritesVM: FavoritesViewModel
+    @StateObject var favoritesVM = FavoritesViewModel()
     
     
     var body: some View {

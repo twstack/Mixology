@@ -49,10 +49,12 @@ struct FavoriteView: View {
                                     } label: {
                                         Text(cocktail.name)
                                     }
-                                    .listRowBackground(
-                                        Color("MixologyDark")
-                                    )
+                                    .id(UUID())
+                                        .listRowBackground(
+                                            Color("MixologyDark")
+                                        )
                                 }
+                                .id(UUID())
                                 .listStyle(PlainListStyle())
                                 .font(.custom("Avenir Next", size: 22)).bold()
                                 .foregroundColor(Color("MixologyColor"))
@@ -64,14 +66,15 @@ struct FavoriteView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading:
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "chevron.backward")
-                            .foregroundColor(.white)
-                    })
-                )
+        .navigationBarItems(leading:
+                                Button(action: {
+            presentationMode.wrappedValue.dismiss()
+        }, label: {
+            Image(systemName: "chevron.backward")
+                .foregroundColor(.white)
+        }).id(UUID())
+
+        )
     }
 }
 

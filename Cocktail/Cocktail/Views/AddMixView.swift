@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddMixView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var mixViewModel: MixViewModel
+    @StateObject var mixViewModel = MixViewModel()
     @State private var name: String = ""
     @State private var instructions: String = ""
     @State private var ingredients: [String] = []
