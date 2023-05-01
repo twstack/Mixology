@@ -11,48 +11,53 @@ struct FavoriteView: View {
     @EnvironmentObject var favoritesVM: FavoritesViewModel
     
     var body: some View {
-        NavigationView {
-            GeometryReader { geometry in
-                ZStack {
-                    NavigationStack {
-                        VStack {
-                            Image("CocktailsTitle")
-                                .resizable()
-                                .scaledToFit()
-                                .scaleEffect(0.9)
-                                .padding()
-                                .foregroundColor(Color("MixologyDark"))
-                                .shadow(color: .white, radius: 2.5)
-                                .brightness(0.05)
-                        }
-                        .background(Color("MixologyDark"))
-                        
-                        List(favoritesVM.favoritedCocktails) { cocktail in
-                            NavigationLink {
-                                DetailView(cocktail: cocktail)
-                                
-                            } label: {
-                                Text(cocktail.name)
+        NavigationStack {
+            NavigationView {
+                GeometryReader { geometry in
+                    ZStack {
+                        NavigationStack {
+                            VStack {
+                                Image("FavoritesTitle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .scaleEffect(0.9)
+                                    .padding()
+                                    .foregroundColor(Color("MixologyDark"))
+                                    .shadow(color: .white, radius: 2.5)
+                                    .brightness(0.05)
                             }
-                            .listRowBackground(
-                                Color("MixologyDark")
-                            )
+                            .background(Color("MixologyDark"))
+                            
+                            ZStack {
+                                overlay {
+                                    Color("MixologyDark")
+                                        .ignoresSafeArea()
+                                }
+                                List {
+                                    ForEach(favoritesVM.favoritedCocktails) { cocktail in
+                                        NavigationLink(destination: DetailView(cocktail: cocktail).environmentObject(favoritesVM)) {
+                                            Text(cocktail.name)
+                                        }
+                                    }
+                                }
+                                .listStyle(PlainListStyle())
+                                .font(.custom("Avenir Next", size: 22)).bold()
+                                .foregroundColor(Color("MixologyColor"))
+                            }
                         }
-                        .listStyle(PlainListStyle())
-                        .font(.custom("Avenir Next", size: 22)).bold()
-                        .foregroundColor(Color("MixologyColor"))
-                        .navigationBarTitleDisplayMode(.inline)
                     }
+                    .background(Color("MixologyDark"))
                 }
             }
-            .navigationBarTitle("Favorites", displayMode: .inline)
         }
     }
 }
 
 struct FavoriteView_Previews: PreviewProvider {
     static var previews: some View {
-        FavoriteView()
-            .environmentObject(FavoritesViewModel())
+        NavigationStack {
+            FavoriteView()
+                .environmentObject(FavoritesViewModel())
+        }
     }
 }

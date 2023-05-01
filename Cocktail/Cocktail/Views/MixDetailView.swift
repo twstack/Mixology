@@ -105,6 +105,8 @@ struct MixDetailView: View {
 
 struct MixDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MixDetailView(mixed: Mixed(name: "Moonshot", instructions: "Add 1 oz vodka, lemon juice, ice, and shake.", ingredients: ["Vodka", "Lemon juice" ]))
+        NavigationStack {
+            MixDetailView(mixed: Mixed(name: "Moonshot", instructions: "Add 1 oz vodka, lemon juice, ice, and shake.", ingredients: ["Vodka", "Lemon juice" ]))
+        }
     }
 }

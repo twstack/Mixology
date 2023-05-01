@@ -129,7 +129,9 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 struct AddMixView_Previews: PreviewProvider {
     static var previews: some View {
-        AddMixView()
-            .environmentObject(MixViewModel())
+        NavigationStack {
+            AddMixView()
+                .environmentObject(MixViewModel())
+        }
     }
 }
